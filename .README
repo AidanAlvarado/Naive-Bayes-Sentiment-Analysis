@@ -1,0 +1,116 @@
+# Niave Bayes Sentiment Analysis
+
+Compact, easy-to-follow implementation of a Naive Bayes sentiment analysis pipeline for learning and quick prototyping. This repository uses classical ML techniques to classify short text (reviews, tweets, etc.) as positive or negative.
+
+---
+
+Table of contents
+- Overview
+- Requirements
+- Quickstart
+- Usage
+  - Train (train.py)
+  - Predict (test.py)
+  - Entry point (main.py)
+- Project files
+- Dataset format
+- Tips to improve results
+- Contributing
+- License
+- Contact
+
+Overview
+This project contains a small Naive Bayes sentiment pipeline:
+- train.py — training script (must be run at least once to produce a saved model)
+- test.py — prediction logic (contains the inference/predict functions and script-mode prediction)
+- main.py — project entry (wraps usage; intended to be run after training)
+
+Requirements
+- Python 3.8+
+- packages (install with pip):
+  - re
+  - math
+  - random
+
+Quickstart
+1. Clone the repo:
+   git clone https://github.com/AidanAlvarado/Niave-Bayes-Sentiment-Analysis.git
+   cd Niave-Bayes-Sentiment-Analysis
+
+2. Prepare your training CSV (see Dataset format below).
+
+3. Train a model:
+   Run the training script. Example:
+   python train.py
+   The script should create a serialized model (e.g., in a `models/` folder). If train.py supports CLI flags, run `python train.py --help` to see options for input path and output path.
+
+4. Run the program (entry point):
+   python main.py
+   main.py is intended as the top-level entry — it should load the trained model (created by train.py) and use test.py for prediction. \\
+
+5. Make single predictions
+
+Usage details
+
+Train (train.py)
+- Purpose: Train the Naive Bayes model on labeled data and save the trained model + any vectorizer/preprocessor to disk.
+- Typical workflow:
+  - Load training CSV (columns: text, label)
+  - Preprocess (tokenize, lowercase, optional stopword removal)
+  - Extract features (bag-of-words or TF-IDF)
+  - Fit MultinomialNB (or similar)
+  - Serialize model and vectorizer (joblib/pickle)
+- Run:
+  - Minimal: python train.py
+  - For CLI parameters, run: python train.py --help
+
+Predict (test.py)
+- Purpose: Contains inference/prediction logic. Use it to run predictions against a trained model.
+prediction
+
+
+Entry point (main.py)
+- Purpose: Main entry for the project. Intended to coordinate loading of the saved model and running predictions/interactive demo.
+- Usage:
+  - python main.py
+
+
+Project files
+- main.py — entry point; orchestrates model loading and prediction flow.
+- train.py — training pipeline. Must be run at least once before making predictions.
+- test.py — prediction/inference code; exposes functions and (optionally) a CLI.
+
+Dataset format
+- Recommended: CSV files with at least two columns:
+  - text — raw text to classify
+  - label — target label (e.g., positive/negative or 1/0)
+- Example:
+  "I loved the movie",positive
+  "It was terrible",negative
+
+If using NLTK, download required corpora once:
+python -c "import nltk; nltk.download('punkt'); nltk.download('stopwords')"
+
+Tips to improve results
+- Use TF-IDF instead of raw counts.
+- Add n-grams (unigrams + bigrams).
+- Clean and normalize text (remove punctuation, normalize contractions).
+- Balance classes or use class weighting if labels are imbalanced.
+- Feature selection or dimensionality reduction for speed.
+- For higher accuracy, consider transformer models (Hugging Face) instead of Naive Bayes.
+
+Contributing
+Contributions welcome:
+1. Fork the repo
+2. Create a branch: git checkout -b feature/your-feature
+3. Add tests / examples where appropriate
+4. Open a pull request describing the change
+
+License
+This project is licensed under the MIT License 
+
+Contact
+Maintainer: AidanAlvarado (GitHub: https://github.com/AidanAlvarado)
+
+Acknowledgements
+- scikit-learn, NLTK, and example public sentiment datasets (IMDb, Twitter datasets)
